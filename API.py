@@ -1,3 +1,5 @@
+#sets up the API using flask
+
 from flask import Flask
 from connector import dbQuery, dbQueryList
 from flask_restful import Resource, Api, reqparse
@@ -7,7 +9,7 @@ app = Flask(__name__)
 api = Api(app)
 
 class Accounts(Resource):
-
+    #Not really part of the task, just used for getting the Account table
     def get(self):
         result = dbQuery("SELECT * FROM mnemonic.account;")
         if isinstance(result, list):
@@ -21,6 +23,7 @@ class Accounts(Resource):
 
 class Transactions(Resource):
     
+    #Helper for making a transaction list to a dict
     def transactionResultToDict(self, result):
         transaction_dict = {}
         for row in result:
@@ -29,6 +32,7 @@ class Transactions(Resource):
             'sourceAccount': row[5], 'destinationAccount': row[6]}
         return transaction_dict
 
+    #Not really part of the task, just used for getting the Transaction table
     def get(self):
         result = dbQuery("SELECT * FROM mnemonic.transaction;")
         if isinstance(result, list):
@@ -37,6 +41,7 @@ class Transactions(Resource):
         else:
             return str(result), 400
 
+    #The actuall task
     def post(self):
         parser = reqparse.RequestParser()
 
@@ -84,5 +89,6 @@ class Transactions(Resource):
 api.add_resource(Accounts, '/accounts')
 api.add_resource(Transactions, '/transactions')
 
+#runs the API
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=105)

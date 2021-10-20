@@ -1,3 +1,5 @@
+-- SQL-queries for creating the tables and adding some data
+
 Create table if not exists mnemonic.account(
 id int auto_increment Primary Key,
 name Varchar(255) not null,

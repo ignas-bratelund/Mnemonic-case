@@ -1,11 +1,10 @@
+#Connects to the mysql datbase and executes one or multiple queries
+
 import mysql.connector
 from mysql.connector import Error
 
 
-# query1 = "SELECT * FROM mnemonic.account;"
-# query2 = "Insert into mnemonic.account(name, availableCash) values('test3',100);"
-            
-
+#Connects to the database and executes one query
 def dbQuery(query):
     try:
         connection = mysql.connector.connect(host='localhost',
@@ -30,6 +29,7 @@ def dbQuery(query):
             print("MySQL connection is closed")
         return result
 
+#Connects to the database and executes multiple queries, only returns the last result
 def dbQueryList(query_list):
     try:
         connection = mysql.connector.connect(host='localhost',
