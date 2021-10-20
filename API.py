@@ -67,13 +67,13 @@ class Transactions(Resource):
                 return "The source account does not have enough funds available", 400
 
             #Transfers the money in a single access to the db to reduce error
-            #NB: ikke en bra løsning, problemer hvis det er mange transaksjoner
             dbQueryList(["UPDATE Account SET availableCash = availableCash - "+ 
             str(args["cashAmount"] + " WHERE id=" + str(args["sourceAccount"])),
             "UPDATE Account SET availableCash = availableCash + "+ 
             str(args["cashAmount"] + " WHERE id=" + str(args["destinationAccount"]))])
             
             #Updates success and executedTime of transaction
+            #NB: ikke en bra løsning, problemer hvis det er mange transaksjoner
             dbQuery("UPDATE Transaction SET success = 1, executedTime="+ str(int(time.time()*1000.0)) +" ORDER BY id DESC LIMIT 1")
 
             data = self.transactionResultToDict(dbQuery("SELECT * FROM transaction ORDER BY id DESC LIMIT 1"))
